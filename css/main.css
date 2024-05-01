@@ -1,0 +1,14 @@
+body
+{
+    background-color: #000000;
+}
+
+#screen
+{
+    border: 1px solid #ffffff;
+    background: url("/img/background.png");
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
