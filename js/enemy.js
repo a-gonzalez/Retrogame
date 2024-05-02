@@ -23,3 +23,11 @@ export class BettleMorph extends Enemy
         super();
     }
 }
+
+export class RhinoMorph extends Enemy
+{
+    constructor()
+    {
+        super();
+    }
+}

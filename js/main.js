@@ -1,4 +1,4 @@
-//import Game from "./game.js";
+import Game from "./game.js";
 
 addEventListener("load", () =>
 {
@@ -6,10 +6,10 @@ addEventListener("load", () =>
 
     const screen = document.getElementById("screen");
     screen.width = 600;
-    screen.height = 800;
+    screen.height = 750;
 
     const context = screen.getContext("2d");
-    //const game = new Game(screen);
+    const game = new Game(screen);
     
     let previous_stamp = 0;
 
@@ -22,10 +22,8 @@ addEventListener("load", () =>
 
         //console.log(delta_time); // 1000 / 60.6 ~ 16.5
 
-        //game.draw(context);
-        //game.update(delta_time);
-
-        //game.test(context);
+        game.draw(context);
+        game.update(delta_time);
 
         requestAnimationFrame(animate);
     };
