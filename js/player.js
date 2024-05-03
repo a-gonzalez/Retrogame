@@ -10,7 +10,7 @@ export default class Player
         this.frame_x = 0;
         this.frame_y = 0;
         this.frame_max = 4;
-        this.speed = 5;
+        this.speed = 10;
         this.timer = 0;
         this.interval = 1000;
 
@@ -40,9 +40,9 @@ export default class Player
 
         if (this.game.keys.indexOf("ArrowLeft") > -1)
         {
-            if (this.x <= 0)
+            if (this.x <= -this.width * 0.5)
             {
-                this.x = 0;
+                this.x = -this.width * 0.5;
             }
             else
             {
@@ -51,19 +51,14 @@ export default class Player
         }
         else if (this.game.keys.indexOf("ArrowRight") > -1)
         {
-            if (this.x >= this.game.width - this.width)
+            if (this.x >= this.game.width - this.width * 0.5)
             {
-                this.x = this.game.width - this.width;
+                this.x = this.game.width - this.width * 0.5;
             }
             else
             {
                 this.x += this.speed;
             }
-        }
-        
-        if (this.game.keys.indexOf(" ") > -1)
-        {
-            this.shoot();
         }
     }
 

@@ -4,21 +4,21 @@ export default class Projectile
 {
     constructor(x, y)
     {
-        this.width = 4;
+        this.width = 5;
         this.height = 10;
         this.x = x;
         this.y = y;
         this.speed = 15;
         this.free = true;
 
-        //this.sound = new Sound("aud/laser.wav");
+        this.sound = new Sound("aud/lazer.wav");
     }
 
     draw(context)
     {
         if (!this.free)
         {
-            context.fillStyle = "#00ff00";
+            context.fillStyle = "#2dff1e"; // dark green"#228b22";
             context.fillRect(this.x, this.y, this.width, this.height);
         }
     }
@@ -39,10 +39,10 @@ export default class Projectile
     wake(x, y)
     {
         this.free = false;
-        this.x = x + this.width * 0.5;
+        this.x = x - this.width * 0.5;
         this.y = y;
 
-        //this.play();
+        this.play();
     }
 
     sleep()
@@ -50,8 +50,8 @@ export default class Projectile
         this.free = true;
     }
 
-   /* play()
+   play()
     {
         this.sound.play();
-    }*/
+    }
 }
