@@ -2,14 +2,17 @@ export default class Player
 {
     constructor(game)
     {
+        console.log(`Player .ctor @ ${new Date().toLocaleString()}`);
+
         this.game = game;
         this.width = 140;
         this.height = 120;
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = this.game.height - this.height;
+        this.lives = 3;
         this.frame_x = 0;
         this.frame_y = 0;
-        this.frame_max = 4;
+        this.frame_max = 3;
         this.speed = 10;
         this.timer = 0;
         this.interval = 1000;
@@ -20,7 +23,6 @@ export default class Player
 
     draw(context)
     {
-        context.strokeStyle = "#ff0000";
         context.strokeRect(this.x, this.y - 5, this.width, this.height);
         context.drawImage(this.image, this.x * this.frame_x, this.y * this.frame_y, this.width, this.height, this.x, this.y + 10, this.width, this.height);
     }

@@ -3,7 +3,6 @@ export default class Sound
     constructor(path)
     {
         this.path = path
-        //this.free = true;
         this.audio = new Audio(path);
         this.audio.autoplay = false;
     }
@@ -18,14 +17,4 @@ export default class Sound
     {
         this.audio.pause();
     }
-
-    /*sleep()
-    {
-        this.audio.pause();
-    }
-
-    wake()
-    {
-        this.audio.play();
-    }*/
 }

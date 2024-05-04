@@ -4,6 +4,8 @@ export default class Projectile
 {
     constructor(x, y)
     {
+        console.log(`Projectile .ctor @ ${new Date().toLocaleString()}`);
+
         this.width = 5;
         this.height = 10;
         this.x = x;
@@ -11,15 +13,17 @@ export default class Projectile
         this.speed = 15;
         this.free = true;
 
-        this.sound = new Sound("aud/lazer.wav");
+        this.sound = new Sound("aud/laser.wav");
     }
 
     draw(context)
     {
         if (!this.free)
         {
-            context.fillStyle = "#2dff1e"; // dark green"#228b22";
+            context.save();
+            context.fillStyle = "#2dff1e"; // laser rbg
             context.fillRect(this.x, this.y, this.width, this.height);
+            context.restore();
         }
     }
 

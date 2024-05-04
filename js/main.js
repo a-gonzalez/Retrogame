@@ -9,6 +9,11 @@ addEventListener("load", () =>
     screen.height = 750;
 
     const context = screen.getContext("2d");
+    context.fillStyle = "#ffffff";
+    context.strokeStyle = "#ffffff";
+    context.lineWidth = 3;
+    context.font = "25px arial";
+
     const game = new Game(screen);
     
     let previous_stamp = 0;
@@ -22,10 +27,13 @@ addEventListener("load", () =>
 
         //console.log(delta_time); // 1000 / 60.6 ~ 16.5
 
-        game.draw(context);
         game.update(delta_time);
+        game.draw(context);
 
-        requestAnimationFrame(animate);
+        if (!game.game_over)
+        {
+            requestAnimationFrame(animate);
+        }
     };
 
     animate(0);
