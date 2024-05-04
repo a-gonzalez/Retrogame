@@ -12,6 +12,7 @@ export default class Game
         this.width = this.screen.width;
         this.height = this.screen.height;
         this.game_over = false;
+        this.game_debug = false;
         this.score = 0;
         this.keys = [];
         this.projectiles = [];
@@ -19,14 +20,18 @@ export default class Game
         this.projectile_fired = false;
 
         this.player = new Player(this);
+        this.enemy_size = 80;
 
         this.columns = 3;
         this.rows = 3;
-        this.enemy_size = 80;
 
         this.waves = [];
         this.wave_count = 1;
         this.waves.push(new Wave(this));
+
+        this.sprite_update = false;
+        this.sprite_timer = 0;
+        this.sprite_interval = 250;
 
         addEventListener("keydown", (event) =>
         {
@@ -93,6 +98,16 @@ export default class Game
 
     update(delta_time)
     {
+        if (this.sprite_timer > this.sprite_interval)
+        {
+            this.sprite_timer = 0;
+            this.sprite_update = true;
+        }
+        else
+        {
+            this.sprite_timer += delta_time;
+            this.sprite_update = false;
+        }
         this.player.update(delta_time);
 
         this.projectiles.forEach((projectile) =>
@@ -102,7 +117,7 @@ export default class Game
 
         this.waves.forEach((wave) =>
         {
-            wave.update();
+            wave.update(delta_time);
         });
     }
 

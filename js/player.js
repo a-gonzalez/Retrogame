@@ -23,7 +23,10 @@ export default class Player
 
     draw(context)
     {
-        context.strokeRect(this.x, this.y - 5, this.width, this.height);
+        if (this.game.debug === true)
+        {
+            context.strokeRect(this.x, this.y - 5, this.width, this.height);
+        }
         context.drawImage(this.image, this.x * this.frame_x, this.y * this.frame_y, this.width, this.height, this.x, this.y + 10, this.width, this.height);
     }
 

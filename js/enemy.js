@@ -1,4 +1,4 @@
-export class Enemy
+class Enemy
 {
     constructor(game, position_x, position_y)
     {
@@ -12,21 +12,15 @@ export class Enemy
         this.remove = false;
         this.position_x = position_x;
         this.position_y = position_y;
-
-        this.image = new Image();
-        this.image.src = "img/beetlemorph.png";
-
-        this.frame_x = 0;
-        this.frame_y = 0;
-        this.frame_max = 4;
-        this.frame_timer = 0;
-        this.frame_interval = 1500;
     }
 
     draw(context)
     {
-        context.strokeRect(this.x, this.y, this.width, this.height);
-        context.drawImage(this.image, this.x * this.frame_x, this.y * this.frame_y, this.width, this.height, this.x, this.y, this.width, this.height);
+        if (this.game.debug === true)
+        {
+            context.strokeRect(this.x, this.y, this.width, this.height);
+        }
+        context.drawImage(this.image, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
     update(delta_time, x, y)
@@ -52,18 +46,31 @@ export class Enemy
 
         this.game.projectiles.forEach((projectile) =>
         {
-            if (!projectile.free && this.game.isAHit(this, projectile))
+            if (!projectile.free && this.game.isAHit(this, projectile) && this.lives > 0)
             {
-                this.remove = true;
+                this.hit(1);
 
                 projectile.sleep();
-
-                if (this.game.game_over === false)
-                {
-                    ++this.game.score;
-                }
             }
         });
+
+        if (this.lives < 1)
+        {
+            if (this.game.sprite_update === true)
+            {
+                ++this.frame_x;
+            }
+
+            if (this.frame_x > this.frame_max)
+            {
+                this.remove = true;
+            }
+
+            if (this.game.game_over === false)
+            {
+                this.game.score += this.lives_max;
+            }
+        }
 
         if (this.game.isAHit(this, this.game.player) && this.game.game_over === false)
         {
@@ -87,25 +94,45 @@ export class Enemy
             this.remove = true;
         }
     }
+
+    hit(damage)
+    {
+        this.lives -= damage;
+    }
 }
 
-export class BettleMorph extends Enemy
+export class BeetleMorph extends Enemy
 {
     constructor(game, position_x, position_y)
     {
-        super(game);
-    }
+        super(game, position_x, position_y);
 
-    draw(context)
-    {
-        super.draw(context);
-    }
+        this.lives = 1;
+        this.lives_max = this.lives;
+        this.image = new Image();
+        this.image.src = "img/beetlemorph.png";
+
+        this.frame_x = 0;
+        this.frame_y = Math.floor(Math.random() * 4);
+        this.frame_max = 2;
+        this.frame_timer = 0;
+        this.frame_interval = 10000;
+    }// 1000 ms / 16.6 = 60 fps
 }
 
 export class RhinoMorph extends Enemy
 {
     constructor(game, position_x, position_y)
     {
-        super(game);
+        super(game, position_x, position_y);
+
+        this.image = new Image();
+        this.image.src = "img/rhinomorph.png";
+
+        this.frame_x = 0;
+        this.frame_y = 0;
+        this.frame_max = 4;
+        this.frame_timer = 0;
+        this.frame_interval = 1500;
     }
 }

@@ -1,4 +1,4 @@
-import { Enemy } from "./enemy.js";
+import { BeetleMorph, RhinoMorph } from "./enemy.js";
 
 export default class Wave
 {
@@ -9,9 +9,9 @@ export default class Wave
         this.game = game;
         this.width = this.game.columns * this.game.enemy_size;
         this.height = this.game.rows * this.game.enemy_size;
-        this.x = 0;
+        this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = -this.height;
-        this.speed_x = 1.5;
+        this.speed_x = Math.random() <= 0.5 ? -1.5 : 1.5;
         this.speed_y = 0;
         this.next_wave_trigger = false;
 
@@ -63,7 +63,7 @@ export default class Wave
                 let enemy_x = x * this.game.enemy_size;
                 let enemy_y = y * this.game.enemy_size;
 
-                this.enemies.push(new Enemy(this.game, enemy_x, enemy_y));
+                this.enemies.push(new BeetleMorph(this.game, enemy_x, enemy_y));
             }
         }
     }
