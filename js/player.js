@@ -73,4 +73,11 @@ export default class Player
             projectile.wake(this.x + this.width * 0.5, this.y);
         }
     }
+
+    restart()
+    {
+        this.x = this.game.width * 0.5 - this.width * 0.5;
+        this.y = this.game.height - this.height;
+        this.lives = 3;
+    }
 }

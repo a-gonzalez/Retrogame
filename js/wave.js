@@ -13,7 +13,7 @@ export default class Wave
         this.y = -this.height;
         this.speed_x = 1.5;
         this.speed_y = 0;
-        this.wave_trigger = false;
+        this.next_wave_trigger = false;
 
         this.enemies = [];
         this.create();
@@ -21,7 +21,6 @@ export default class Wave
 
     draw(context)
     {
-        //context.lineWidth = 3;
         //context.strokeRect(this.x, this.y, this.width, this.height);
 
         this.enemies.forEach((enemy) =>

@@ -30,10 +30,10 @@ addEventListener("load", () =>
         game.update(delta_time);
         game.draw(context);
 
-        if (!game.game_over)
-        {
+        //if (game.game_over === false)
+        //{
             requestAnimationFrame(animate);
-        }
+        //}
     };
 
     animate(0);

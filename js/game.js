@@ -16,10 +16,11 @@ export default class Game
         this.keys = [];
         this.projectiles = [];
         this.projectile_count = 10;
+        this.projectile_fired = false;
 
         this.player = new Player(this);
 
-        this.columns = 2;
+        this.columns = 3;
         this.rows = 3;
         this.enemy_size = 80;
 
@@ -29,19 +30,27 @@ export default class Game
 
         addEventListener("keydown", (event) =>
         {
-            if (this.keys.indexOf(event.key) === -1)
+            if (event.key === " " && this.projectile_fired === false && this.game_over === false)
+            {
+                this.player.shoot();
+                this.projectile_fired = true;
+            }
+
+            if (this.keys.indexOf(event.key) === -1 && this.game_over === false)
             {
                 this.keys.push(event.key);
             }
 
-            if (event.key === " ")
+            if (event.key === "R" && this.game_over === true)
             {
-                this.player.shoot();
+                this.restart(); //location.reload();
             }
         });
 
         addEventListener("keyup", (event) =>
         {
+            this.projectile_fired = false;
+
             const index = this.keys.indexOf(event.key);
 
             if (index > -1)
@@ -66,11 +75,16 @@ export default class Game
         {
             wave.draw(context);
 
-            if (wave.enemies.length < 1 && !wave.wave_trigger && !this.game_over)
+            if (wave.enemies.length < 1 && !wave.next_wave_trigger && !this.game_over)
             {
-                this.newWave();
+                this.nextWave();
                 this.wave_count++;
-                wave.wave_trigger = true;
+                wave.next_wave_trigger = true;
+
+                if (this.player.lives < 5)
+                {
+                    ++this.player.lives;
+                }
             }
         });
 
@@ -113,13 +127,17 @@ export default class Game
 
     setGameText(context)
     {
-        context.fillText(`Score: `, 20, 40);
-        context.fillText(this.score, 120, 40);
-        context.fillText(`Wave: `, this.width - 140, 40);
-        context.fillText(this.wave_count, this.width - 40, 40);
+        context.fillText(`Score  ${this.score}`, 20, 40);
+        context.fillText(`Wave  ${this.wave_count}`, this.width - 140, 40);
+
+        for (let index = 0; index < this.player.lives; index++)
+        {
+            context.fillRect(10 * index + 30, 60, 5, 10)
+        }
 
         if (this.game_over)
         {
+            context.save();
             context.shadowOffsetX = 5;
             context.shadowOffsetY = 5;
             context.shadowColor = "#000000";
@@ -127,10 +145,13 @@ export default class Game
             context.font = "80px impact";
             context.fillStyle = "#ff0000";
             context.fillText("Game Over!", this.width * 0.5, this.height * 0.5);
+            context.font = "25px arial";
+            context.fillText("Press R To Restart.", this.width * 0.5, this.height * 0.5 + 35);
+            context.restore();
         }
     }
 
-    newWave()
+    nextWave()
     {
         if (Math.random() < 0.5 && this.columns * this.enemy_size < this.width * 0.8)
         {
@@ -141,6 +162,20 @@ export default class Game
             this.rows++;
         }
         this.waves.push(new Wave(this));
+    }
+
+    restart()
+    {
+        this.game_over = false;
+        this.score = 0;
+        this.columns = 3;
+        this.rows = 3;
+
+        this.waves = [];
+        this.wave_count = 1;
+        this.waves.push(new Wave(this));
+
+        this.player.restart();
     }
 
     isAHit(enemy, projectile)

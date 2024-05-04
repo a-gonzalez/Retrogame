@@ -58,11 +58,14 @@ export class Enemy
 
                 projectile.sleep();
 
-                ++this.game.score;
+                if (this.game.game_over === false)
+                {
+                    ++this.game.score;
+                }
             }
         });
 
-        if (this.game.isAHit(this, this.game.player))
+        if (this.game.isAHit(this, this.game.player) && this.game.game_over === false)
         {
             this.remove = true;
 
@@ -74,7 +77,7 @@ export class Enemy
 
             if (this.game.player.lives < 1)
             {
-                this.game_over = true;
+                this.game.game_over = true;
             }
         }
 
@@ -88,7 +91,7 @@ export class Enemy
 
 export class BettleMorph extends Enemy
 {
-    constructor(game)
+    constructor(game, position_x, position_y)
     {
         super(game);
     }
@@ -101,7 +104,7 @@ export class BettleMorph extends Enemy
 
 export class RhinoMorph extends Enemy
 {
-    constructor(game)
+    constructor(game, position_x, position_y)
     {
         super(game);
     }
