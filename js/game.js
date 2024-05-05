@@ -80,7 +80,7 @@ export default class Game
                 this.wave_count++;
                 wave.next_wave_trigger = true;
 
-                if (this.player.lives < 5)
+                if (this.player.lives < this.player.lives_max)
                 {
                     ++this.player.lives;
                 }
@@ -138,10 +138,15 @@ export default class Game
     {
         context.fillText(`Score  ${this.score}`, 20, 40);
         context.fillText(`Wave  ${this.wave_count}`, this.width - 140, 40);
+        
+        for (let index = 0; index < this.player.lives_max; index++)
+        {
+            context.strokeRect(15 * index + 25, 50, 10, 15)
+        }
 
         for (let index = 0; index < this.player.lives; index++)
         {
-            context.fillRect(10 * index + 30, 60, 5, 10)
+            context.fillRect(15 * index + 25, 50, 10, 15)
         }
 
         if (this.game_over)

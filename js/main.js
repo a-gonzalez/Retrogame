@@ -11,7 +11,7 @@ addEventListener("load", () =>
     const context = screen.getContext("2d");
     context.fillStyle = "#ffffff";
     context.strokeStyle = "#ffffff";
-    context.lineWidth = 3;
+    //context.lineWidth = 3;
     context.font = "25px arial";
 
     const game = new Game(screen);

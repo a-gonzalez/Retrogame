@@ -32,13 +32,8 @@ class Enemy
         {
             if (!projectile.free && this.game.isAHit(this, projectile) && this.lives > 0)
             {
-                //this.remove = true;
                 this.hit(1);
 
-                /*if (this.game.game_over === false)
-                {
-                    this.game.score += this.lives_max;
-                }*/
                 projectile.sleep();
             }
         });
@@ -61,26 +56,16 @@ class Enemy
             }
         }
 
-        if (this.game.isAHit(this, this.game.player) && this.game.game_over === false)
+        if (this.game.isAHit(this, this.game.player) && this.lives > 0)
         {
-            this.remove = true;
-
-            if (this.game.score > 0)
-            {
-                --this.game.score;
-            }
-            --this.game.player.lives;
-
-            if (this.game.player.lives < 1)
-            {
-                this.game.game_over = true;
-            }
+            this.lives = 0;
+            this.game.player.lives--;
         }
 
-        if (this.y + this.height > this.game.height)
+        if (this.y + this.height > this.game.height || this.game.player.lives < 1)
         {
             this.game.game_over = true;
-            this.remove = true;
+            //this.remove = true;
         }
     }
 

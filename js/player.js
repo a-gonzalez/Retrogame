@@ -10,12 +10,12 @@ export default class Player
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = this.game.height - this.height;
         this.lives = 3;
+        this.lives_max = 5;
         this.frame_x = 0;
         this.frame_y = 0;
         this.frame_max = 3;
+        this.frame_jets = 1;
         this.speed = 5;
-        this.timer = 0;
-        this.interval = 1000;
 
         this.image = new Image();
         this.image.src = "img/player.png";
@@ -38,8 +38,8 @@ export default class Player
         {
             this.frame_x = 0;
         }
-        context.drawImage(this.image, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y, this.width, this.height);
-        //context.drawImage(this.jets, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y + 10, this.width, this.height);
+        context.drawImage(this.jets, this.width * this.frame_jets, this.height * this.frame_y, this.width, this.height, this.x, this.y + 10, this.width, this.height);
+        context.drawImage(this.image, this.width * this.frame_x, 0, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
     update(delta_time)
@@ -53,6 +53,7 @@ export default class Player
             else
             {
                 this.x -= this.speed;
+                this.frame_jets = 0;
             }
         }
         else if (this.game.keys.indexOf("ArrowRight") > -1)
@@ -64,7 +65,12 @@ export default class Player
             else
             {
                 this.x += this.speed;
+                this.frame_jets = 2;
             }
+        }
+        else
+        {
+            this.frame_jets = 1;
         }
 
         if (this.game.keys.indexOf(" ") > -1 && this.game.projectile_fired === false)
@@ -93,6 +99,6 @@ export default class Player
     {
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = this.game.height - this.height;
-        this.lives = 1;
+        this.lives = 3;
     }
 }
