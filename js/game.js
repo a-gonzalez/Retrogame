@@ -31,16 +31,10 @@ export default class Game
 
         this.sprite_update = false;
         this.sprite_timer = 0;
-        this.sprite_interval = 250;
+        this.sprite_interval = 150;
 
         addEventListener("keydown", (event) =>
         {
-            if (event.key === " " && this.projectile_fired === false && this.game_over === false)
-            {
-                this.player.shoot();
-                this.projectile_fired = true;
-            }
-
             if (this.keys.indexOf(event.key) === -1 && this.game_over === false)
             {
                 this.keys.push(event.key);
@@ -69,12 +63,12 @@ export default class Game
 
     draw(context)
     {
-        this.player.draw(context);
-
         this.projectiles.forEach((projectile) =>
         {
             projectile.draw(context);
         });
+
+        this.player.draw(context);
 
         this.waves.forEach((wave) =>
         {

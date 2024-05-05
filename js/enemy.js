@@ -24,23 +24,7 @@ class Enemy
     }
 
     update(delta_time, x, y)
-    {
-        /*this.frame_timer += delta_time;
-
-        if (this.frame_timer > this.frame_interval)
-        {
-            this.frame_timer = 0;
-        }
-        else
-        {
-            ++this.frame_y;
-
-            if (this.frame_y > this.frame_max)
-            {
-                this.frame_y = 0;
-            }
-        }*/
-        
+    {   
         this.x = x + this.position_x;
         this.y = y + this.position_y;
 
@@ -48,8 +32,13 @@ class Enemy
         {
             if (!projectile.free && this.game.isAHit(this, projectile) && this.lives > 0)
             {
+                //this.remove = true;
                 this.hit(1);
 
+                /*if (this.game.game_over === false)
+                {
+                    this.game.score += this.lives_max;
+                }*/
                 projectile.sleep();
             }
         });
@@ -64,11 +53,11 @@ class Enemy
             if (this.frame_x > this.frame_max)
             {
                 this.remove = true;
-            }
 
-            if (this.game.game_over === false)
-            {
-                this.game.score += this.lives_max;
+                if (this.game.game_over === false)
+                {
+                    this.game.score += this.lives_max;
+                }
             }
         }
 
@@ -76,7 +65,7 @@ class Enemy
         {
             this.remove = true;
 
-            if (!this.game.game_over && this.game.score > 0)
+            if (this.game.score > 0)
             {
                 --this.game.score;
             }
@@ -109,15 +98,13 @@ export class BeetleMorph extends Enemy
 
         this.lives = 1;
         this.lives_max = this.lives;
-        this.image = new Image();
-        this.image.src = "img/beetlemorph.png";
-
         this.frame_x = 0;
         this.frame_y = Math.floor(Math.random() * 4);
         this.frame_max = 2;
-        this.frame_timer = 0;
-        this.frame_interval = 10000;
-    }// 1000 ms / 16.6 = 60 fps
+
+        this.image = new Image();
+        this.image.src = "img/beetlemorph.png";
+    }
 }
 
 export class RhinoMorph extends Enemy
@@ -131,8 +118,5 @@ export class RhinoMorph extends Enemy
 
         this.frame_x = 0;
         this.frame_y = 0;
-        this.frame_max = 4;
-        this.frame_timer = 0;
-        this.frame_interval = 1500;
     }
 }

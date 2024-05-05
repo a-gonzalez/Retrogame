@@ -13,12 +13,14 @@ export default class Player
         this.frame_x = 0;
         this.frame_y = 0;
         this.frame_max = 3;
-        this.speed = 10;
+        this.speed = 5;
         this.timer = 0;
         this.interval = 1000;
 
         this.image = new Image();
         this.image.src = "img/player.png";
+        this.jets = new Image();
+        this.jets.src = "img/player_jets.png";
     }
 
     draw(context)
@@ -27,22 +29,21 @@ export default class Player
         {
             context.strokeRect(this.x, this.y - 5, this.width, this.height);
         }
-        context.drawImage(this.image, this.x * this.frame_x, this.y * this.frame_y, this.width, this.height, this.x, this.y + 10, this.width, this.height);
+
+        if (this.game.keys.indexOf(" "))
+        {
+            this.frame_x = 1;
+        }
+        else
+        {
+            this.frame_x = 0;
+        }
+        context.drawImage(this.image, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y, this.width, this.height);
+        //context.drawImage(this.jets, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y + 10, this.width, this.height);
     }
 
     update(delta_time)
     {
-        /*if (this.timer > this.interval)
-        {
-            this.timer += delta_time;
-        }
-        else
-        {
-            this.timer = 0;
-            
-            (this.frame_x > this.frame_max) ? this.frame_x = 0 : ++this.frame_x;
-        }*/
-
         if (this.game.keys.indexOf("ArrowLeft") > -1)
         {
             if (this.x <= -this.width * 0.5)
@@ -65,6 +66,17 @@ export default class Player
                 this.x += this.speed;
             }
         }
+
+        if (this.game.keys.indexOf(" ") > -1 && this.game.projectile_fired === false)
+        {
+            this.frame_x = 1;
+            this.game.projectile_fired = true;
+            this.shoot();
+        }
+        else
+        {
+            this.frame_x = 0;
+        }
     }
 
     shoot()
@@ -81,6 +93,6 @@ export default class Player
     {
         this.x = this.game.width * 0.5 - this.width * 0.5;
         this.y = this.game.height - this.height;
-        this.lives = 3;
+        this.lives = 1;
     }
 }

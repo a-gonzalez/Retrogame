@@ -46,7 +46,7 @@ export default class Projectile
         this.x = x - this.width * 0.5;
         this.y = y;
 
-        this.play();
+        //this.play();
     }
 
     sleep()
