@@ -1,6 +1,7 @@
 import Player from "./player.js";
 import Projectile from "./projectile.js";
 import Wave from "./wave.js";
+import { Boss } from "./enemy.js";
 
 export default class Game
 {
@@ -20,18 +21,17 @@ export default class Game
         this.projectile_fired = false;
 
         this.player = new Player(this);
+
         this.enemy_size = 80;
-
-        this.columns = 3;
-        this.rows = 3;
-
-        this.waves = [];
-        this.wave_count = 1;
-        this.waves.push(new Wave(this));
-
         this.sprite_update = false;
         this.sprite_timer = 0;
         this.sprite_interval = 150;
+
+        this.waves = [];
+        this.bosses = [];
+        this.boss_lives = 10;
+        
+        this.restart();
 
         addEventListener("keydown", (event) =>
         {
@@ -68,6 +68,11 @@ export default class Game
             projectile.draw(context);
         });
 
+        this.bosses.forEach((boss) =>
+        {
+            boss.draw(context);
+        });
+
         this.player.draw(context);
 
         this.waves.forEach((wave) =>
@@ -77,7 +82,6 @@ export default class Game
             if (wave.enemies.length < 1 && !wave.next_wave_trigger && !this.game_over)
             {
                 this.nextWave();
-                this.wave_count++;
                 wave.next_wave_trigger = true;
 
                 if (this.player.lives < this.player.lives_max)
@@ -108,6 +112,11 @@ export default class Game
         {
             projectile.update(delta_time);
         });
+
+        this.bosses.forEach((boss) =>
+        {
+            boss.update(delta_time);
+        })
 
         this.waves.forEach((wave) =>
         {
@@ -141,12 +150,12 @@ export default class Game
         
         for (let index = 0; index < this.player.lives_max; index++)
         {
-            context.strokeRect(15 * index + 25, 50, 10, 15)
+            context.strokeRect(20 * index + 25, 55, 10, 15)
         }
 
         for (let index = 0; index < this.player.lives; index++)
         {
-            context.fillRect(15 * index + 25, 50, 10, 15)
+            context.fillRect(20 * index + 25, 55, 10, 15)
         }
 
         if (this.game_over)
@@ -167,27 +176,50 @@ export default class Game
 
     nextWave()
     {
-        if (Math.random() < 0.5 && this.columns * this.enemy_size < this.width * 0.8)
+        ++this.wave_count;
+
+        if (this.player.lives < this.player.lives_max)
         {
-            this.columns++;
+            ++this.player.lives;
         }
-        else if (this.rows * this.enemy_size < this.height * 0.6)
+
+        this.waves = this.waves.filter((wave) =>
         {
-            this.rows++;
+            return wave.remove === false;
+        });
+
+        if (this.wave_count % 5 === 0)
+        {
+            this.bosses.push(new Boss(this, this.boss_lives));
         }
-        this.waves.push(new Wave(this));
+        else
+        {
+            if (Math.random() < 0.5 && this.columns * this.enemy_size < this.width * 0.8)
+            {
+                this.columns++;
+            }
+            else if (this.rows * this.enemy_size < this.height * 0.6)
+            {
+                this.rows++;
+            }
+            this.waves.push(new Wave(this));
+        }
     }
 
     restart()
     {
         this.game_over = false;
         this.score = 0;
-        this.columns = 3;
-        this.rows = 3;
+        this.columns = 1;
+        this.rows = 1;
 
         this.waves = [];
         this.wave_count = 1;
         this.waves.push(new Wave(this));
+
+        this.bosses = [];
+        this.boss_lives = 10;
+        //this.bosses.push(new Boss(this, this.boss_lives));
 
         this.player.restart();
     }

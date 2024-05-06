@@ -1,4 +1,4 @@
-import { BeetleMorph, RhinoMorph } from "./enemy.js";
+import { BeetleMorph, Boss, RhinoMorph } from "./enemy.js";
 
 export default class Wave
 {
@@ -7,6 +7,7 @@ export default class Wave
         console.log(`Wave .ctor @ ${new Date().toLocaleString()}`);
 
         this.game = game;
+        this.remove = false;
         this.width = this.game.columns * this.game.enemy_size;
         this.height = this.game.rows * this.game.enemy_size;
         this.x = this.game.width * 0.5 - this.width * 0.5;
@@ -52,6 +53,11 @@ export default class Wave
         {
             enemy.update(delta_time, this.x, this.y);
         });
+
+        if (this.enemies.length <= 0)
+        {
+            this.remove = true;
+        }
     }
 
     create()
@@ -63,7 +69,17 @@ export default class Wave
                 let enemy_x = x * this.game.enemy_size;
                 let enemy_y = y * this.game.enemy_size;
 
-                this.enemies.push(new BeetleMorph(this.game, enemy_x, enemy_y));
+                let enemy = null;
+
+                if (Math.random() < 0.3) // 30% of wave will be rhinos
+                {
+                    enemy = new RhinoMorph(this.game, enemy_x, enemy_y);
+                }
+                else
+                {
+                    enemy = new BeetleMorph(this.game, enemy_x, enemy_y)
+                }
+                this.enemies.push(enemy);
             }
         }
     }

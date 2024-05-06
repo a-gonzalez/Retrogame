@@ -7,7 +7,7 @@ export default class Projectile
         console.log(`Projectile .ctor @ ${new Date().toLocaleString()}`);
 
         this.width = 5;
-        this.height = 10;
+        this.height = 15;
         this.x = x;
         this.y = y;
         this.speed = 15;
