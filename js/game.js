@@ -143,27 +143,44 @@ export default class Game
         }
     }
 
+    /*setIntroScreen(context)
+    {
+        context.save();
+        context.shadowOffsetX = 5;
+        context.shadowOffsetY = 5;
+        context.shadowColor = "#000000";
+        context.textAlign = "center";
+        context.font = "80px space shards";
+        context.fillStyle = "#ff0000";
+        context.fillText("Space Defender", this.width * 0.5, this.height * 0.5);
+        context.font = "25px arial";
+        context.fillText("Press P To Play.", this.width * 0.5, this.height * 0.5 + 35);
+        context.restore();
+    }*/
+
     setGameText(context)
     {
         context.fillText(`Score  ${this.score}`, 20, 40);
-        context.fillText(`Wave  ${this.wave_count}`, this.width - 140, 40);
+        //context.fillText(`Wave  ${this.wave_count}`, this.width - 140, 40);
+        context.fillText(`Wave  ${this.wave_count}`, 20, 65);
         
+        context.fillText("Lives", 20, 120);
+
         for (let index = 0; index < this.player.lives_max; index++)
         {// possible lives
-            context.strokeRect(20 * index + 25, 55, 10, 15)
+            context.strokeRect(10 * index + 100, 105, 5, 15)
         }
 
         for (let index = 0; index < this.player.lives; index++)
         {// actual lives
-            context.fillRect(20 * index + 25, 55, 10, 15)
+            context.fillRect(10 * index + 100, 105, 5, 15)
         }
-
         context.save();
-        context.fillStyle = this.player.energy_depleted ? "#dc3545" : "#ffd700";
+        context.fillStyle = this.player.energy_depleted ? "#dc3545" : "#ffffff"; //"#ffd700";
 
         for (let index = 0; index < this.player.energy; index++)
         {// energy bar
-            context.fillRect(2 * index + 20, 100, 2, 15);
+            context.fillRect(2 * index + 20, 130, 2, 15);
         }
         context.restore();
 
@@ -174,7 +191,7 @@ export default class Game
             context.shadowOffsetY = 5;
             context.shadowColor = "#000000";
             context.textAlign = "center";
-            context.font = "80px impact";
+            context.font = "80px space shards";
             context.fillStyle = "#ff0000";
             context.fillText("Game Over!", this.width * 0.5, this.height * 0.5);
             context.font = "25px arial";
@@ -224,11 +241,11 @@ export default class Game
 
         this.waves = [];
         this.wave_count = 1;
-        //this.waves.push(new Wave(this));
+        this.waves.push(new Wave(this));
 
         this.bosses = [];
         this.boss_lives = 10;
-        this.bosses.push(new Boss(this, this.boss_lives));
+        //this.bosses.push(new Boss(this, this.boss_lives));
 
         this.player.restart();
     }

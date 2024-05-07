@@ -61,14 +61,14 @@ export default class Player
     {
         if (this.energy < this.energy_max && this.game.game_over === false)
         {
-            this.energy += 0.05;
+            this.energy += 0.06;
         }
 
         if (Math.floor(this.energy) < 1)
         {// over-heating laser weapon, cooldown
             this.energy_depleted = true;
         }
-        else if (this.energy > this.energy_max * 0.2)
+        else if (this.energy > this.energy_max * 0.3)
         {// when at least 20% of energy is recharged
             this.energy_depleted = false;
         }

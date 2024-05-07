@@ -12,9 +12,10 @@ addEventListener("load", () =>
     context.fillStyle = "#ffffff";
     context.strokeStyle = "#ffffff";
     //context.lineWidth = 3;
-    context.font = "25px arial";
+    context.font = "25px space shards";
 
     const game = new Game(screen);
+    //game.setIntroScreen(context);
     
     let previous_stamp = 0;
 
