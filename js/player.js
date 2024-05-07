@@ -18,6 +18,10 @@ export default class Player
         this.frame_max = 3;
         this.frame_jets = 1;
         this.speed = 5;
+        this.energy = 50;
+        this.energy_max = 100;
+        this.energy_depleted = false;
+
         this.small_laser = new SmallLaser(this.game);
         this.big_laser = new BigLaser(this.game);
 
@@ -35,13 +39,13 @@ export default class Player
         }
         else if (this.game.keys.indexOf("s") > -1)
         {
-            this.frame_x = 2;
+            //this.frame_x = 2;
             
             this.small_laser.draw(context);
         }
         else if (this.game.keys.indexOf("d") > -1)
         {
-            this.frame_x = 3;
+            //this.frame_x = 3;
             
             this.big_laser.draw(context);
         }
@@ -55,6 +59,20 @@ export default class Player
 
     update(delta_time)
     {
+        if (this.energy < this.energy_max && this.game.game_over === false)
+        {
+            this.energy += 0.05;
+        }
+
+        if (Math.floor(this.energy) < 1)
+        {// over-heating laser weapon, cooldown
+            this.energy_depleted = true;
+        }
+        else if (this.energy > this.energy_max * 0.2)
+        {// when at least 20% of energy is recharged
+            this.energy_depleted = false;
+        }
+
         if (this.game.keys.indexOf("ArrowLeft") > -1)
         {
             if (this.x <= -this.width * 0.5)

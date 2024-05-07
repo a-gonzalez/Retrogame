@@ -42,7 +42,7 @@ class Enemy
             }
         });
 
-        if (this.lives < 1)
+        if (this.lives < 1 && this.game.game_over === false)
         {
             if (this.game.sprite_update === true)
             {

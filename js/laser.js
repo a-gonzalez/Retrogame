@@ -10,6 +10,8 @@ class Laser
 
     draw(context)
     {
+        this.game.player.energy -= this.damage;
+
         context.save();
         context.fillStyle = "#2dff1e"; // laser rbg
         context.fillRect(this.x, this.y, this.width, this.height);
@@ -58,7 +60,12 @@ export  class SmallLaser extends Laser
 
     draw(context)
     {
-        super.draw(context);
+        if (this.game.player.energy > 1 && this.game.player.energy_depleted === false)
+        {
+            super.draw(context);
+
+            this.game.player.frame_x = 2;
+        }
     }
 
     update(delta_time)
@@ -75,5 +82,20 @@ export class BigLaser extends Laser
 
         this.width = 25;
         this.damage = 0.8;
+    }
+
+    draw(context)
+    {
+        if (this.game.player.energy > 1 && this.game.player.energy_depleted === false)
+        {
+            super.draw(context);
+
+            this.game.player.frame_x = 3;
+        }
+    }
+
+    update(delta_time)
+    {
+        super.update(delta_time);
     }
 }

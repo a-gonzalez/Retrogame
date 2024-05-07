@@ -149,14 +149,23 @@ export default class Game
         context.fillText(`Wave  ${this.wave_count}`, this.width - 140, 40);
         
         for (let index = 0; index < this.player.lives_max; index++)
-        {
+        {// possible lives
             context.strokeRect(20 * index + 25, 55, 10, 15)
         }
 
         for (let index = 0; index < this.player.lives; index++)
-        {
+        {// actual lives
             context.fillRect(20 * index + 25, 55, 10, 15)
         }
+
+        context.save();
+        context.fillStyle = this.player.energy_depleted ? "#dc3545" : "#ffd700";
+
+        for (let index = 0; index < this.player.energy; index++)
+        {// energy bar
+            context.fillRect(2 * index + 20, 100, 2, 15);
+        }
+        context.restore();
 
         if (this.game_over)
         {
