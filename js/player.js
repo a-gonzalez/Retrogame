@@ -1,3 +1,5 @@
+import { SmallLaser } from "./laser.js";
+
 export default class Player
 {
     constructor(game)
@@ -16,6 +18,7 @@ export default class Player
         this.frame_max = 3;
         this.frame_jets = 1;
         this.speed = 5;
+        this.laser = new SmallLaser(this.game);
 
         this.image = new Image();
         this.image.src = "img/player.png";
