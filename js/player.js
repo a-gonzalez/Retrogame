@@ -1,4 +1,4 @@
-import { SmallLaser } from "./laser.js";
+import { SmallLaser, BigLaser } from "./laser.js";
 
 export default class Player
 {
@@ -18,7 +18,8 @@ export default class Player
         this.frame_max = 3;
         this.frame_jets = 1;
         this.speed = 5;
-        this.laser = new SmallLaser(this.game);
+        this.small_laser = new SmallLaser(this.game);
+        this.big_laser = new BigLaser(this.game);
 
         this.image = new Image();
         this.image.src = "img/player.png";
@@ -28,14 +29,21 @@ export default class Player
 
     draw(context)
     {
-        if (this.game.debug === true)
-        {
-            context.strokeRect(this.x, this.y - 5, this.width, this.height);
-        }
-
-        if (this.game.keys.indexOf(" "))
+        if (this.game.keys.indexOf(" ") > -1)
         {
             this.frame_x = 1;
+        }
+        else if (this.game.keys.indexOf("s") > -1)
+        {
+            this.frame_x = 2;
+            
+            this.small_laser.draw(context);
+        }
+        else if (this.game.keys.indexOf("d") > -1)
+        {
+            this.frame_x = 3;
+            
+            this.big_laser.draw(context);
         }
         else
         {
@@ -75,6 +83,9 @@ export default class Player
         {
             this.frame_jets = 1;
         }
+
+        this.small_laser.update(delta_time);
+        this.big_laser.update(delta_time);
 
         if (this.game.keys.indexOf(" ") > -1 && this.game.projectile_fired === false)
         {

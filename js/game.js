@@ -68,12 +68,12 @@ export default class Game
             projectile.draw(context);
         });
 
+        this.player.draw(context);
+
         this.bosses.forEach((boss) =>
         {
             boss.draw(context);
         });
-
-        this.player.draw(context);
 
         this.waves.forEach((wave) =>
         {
@@ -215,11 +215,11 @@ export default class Game
 
         this.waves = [];
         this.wave_count = 1;
-        this.waves.push(new Wave(this));
+        //this.waves.push(new Wave(this));
 
         this.bosses = [];
         this.boss_lives = 10;
-        //this.bosses.push(new Boss(this, this.boss_lives));
+        this.bosses.push(new Boss(this, this.boss_lives));
 
         this.player.restart();
     }

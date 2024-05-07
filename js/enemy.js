@@ -16,11 +16,15 @@ class Enemy
 
     draw(context)
     {
-        if (this.game.debug === true)
-        {
-            context.strokeRect(this.x, this.y, this.width, this.height);
-        }
         context.drawImage(this.image, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y, this.width, this.height);
+        /*context.save();
+        context.fillStyle = "#ff0000";
+
+        for (let index = 0; index < this.lives; index++)
+        {
+            context.fillRect(this.x + this.width * 0.2 + index * 10, this.y + this.height * 0.5, 5, 5)
+        }
+        context.restore();*/
     }
 
     update(delta_time, x, y)
@@ -142,18 +146,30 @@ export class Boss
     draw(context)
     {
         context.drawImage(this.image, this.width * this.frame_x, this.height * this.frame_y, this.width, this.height, this.x, this.y, this.width, this.height);
+        context.save();
+        /*context.fillStyle = "#ff0000";
 
-        /*context.save();
-        context.fillStyle = "#2dff1e"; // "#ffd700";
-        context.fillText(this.lives, this.x + this.width * 0.43, this.y + this.height * 0.43);
-        context.restore();*/
+        for (let index = 0; index < this.lives; index++)
+        {
+            context.fillRect(this.x + this.width * 0.2 + index * 15, this.y + this.height * 0.5, 10, 10)
+        }*/
+        if (this.lives >= 1)
+        {
+            context.textAlign = "center";
+            context.shadowOffsetX = 3;
+            context.shadowOffsetY = 3;
+            context.shadowColor = "#000000";
+            context.fillStyle = "#ffd700";
+            context.fillText(Math.floor(this.lives), this.x + this.width * 0.5, this.y + 50)
+            context.restore();
+        }
     }
 
     update(delta_time)
     {
         this.speed_y = 0;
 
-        if (this.game.sprite_update === true && this.lives > 0)
+        if (this.game.sprite_update === true && this.lives >= 1)
         {
             this.frame_x = 0;
         }
@@ -163,7 +179,7 @@ export class Boss
             this.y += 4;
         }
 
-        if (this.x <= 0 || this.x >=  this.game.width - this.width && this.lives > 0)
+        if (this.x <= 0 || this.x >=  this.game.width - this.width && this.lives >= 1)
         {
             this.speed_x *= -1;
             this.speed_y = this.height * 0.5;
@@ -181,7 +197,7 @@ export class Boss
             }
         });
 
-        if (this.game.isAHit(this, this.game.player) && this.lives > 0)
+        if (this.game.isAHit(this, this.game.player) && this.lives >= 1)
         { // did boss collide with player? Game Over!
             this.game.game_over = true;
             this.lives = 0;
@@ -219,7 +235,7 @@ export class Boss
     {
         this.lives -= damage;
 
-        if (this.lives > 0)
+        if (this.lives >= 1)
         {
             this.frame_x = 1;
         }
